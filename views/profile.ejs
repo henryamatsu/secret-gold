@@ -6,7 +6,7 @@
     <link rel="stylesheet" href="//netdna.bootstrapcdn.com/font-awesome/4.2.0/css/font-awesome.min.css">
     <link rel="stylesheet" href="style.css">
 </head>
-<body>
+<body data-_id=<%= user._id %>>
 <div class="container">
 
     <div class="page-header text-center">
@@ -25,7 +25,8 @@
                     <p>
                         <strong>id</strong>: <%= user._id %><br>
                         <strong>email</strong>: <%= user.local.email %><br>
-                        <strong>password</strong>: <%= user.local.password %>
+                        <strong>password</strong>: <%= user.local.password %><br>
+                        <strong>gold</strong>: <span id="gold-display"><%= user.local.gold %></span>
                     </p>
 
                     <a href="/unlink/local" class="btn btn-default">Unlink</a>
@@ -36,27 +37,11 @@
             </div>
         </div>
         <div class="col-sm-6">
-          <h3>Messages</h3>
-          <ul class="messages">
-          <% for(var i=0; i<messages.length; i++) {%>
-            <li class="message">
-              <span><%= messages[i].name %></span>
-              <span><%= messages[i].msg %></span>
-              <span><%= messages[i].thumbUp %></span>
-              <span><i class="fa fa-thumbs-up" aria-hidden="true"></i></span>
-              <span><i class="fa fa-thumbs-down" aria-hidden="true"></i></span>
-              <span><i class="fa fa-trash" aria-hidden="true"></i></span>
-            </li>
-          <% } %>
-          </ul>
-
-          <h2>Add a message</h2>
         <% if (user.local.email) { %>
-          <form action="/messages" method="POST">
-            <input type="text" value="<%= user.local.email %>" name="name">
-            <input type="text" placeholder="message" name="msg">
-            <button type="submit">Submit</button>
-          </form>
+          <button id="gold-button-1">Get Gold 1</button>
+          <button id="gold-button-2">Get Gold 2</button>
+          <button id="gold-button-3">Get Gold 3</button>
+          <button id="gold-button-4">Get Gold 4</button>
         </div>
         <% } %>
 

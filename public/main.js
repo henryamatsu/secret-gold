@@ -1,70 +1,39 @@
-var thumbUp = document.getElementsByClassName("fa-thumbs-up");
-var thumbDown = document.getElementsByClassName("fa-thumbs-down");
-var trash = document.getElementsByClassName("fa-trash");
+const goldDisplay = document.querySelector("#gold-display");
+const _id = document.body.dataset._id;
 
-Array.from(thumbUp).forEach(function(element) {
-      element.addEventListener('click', function(){
-        const name = this.parentNode.parentNode.childNodes[1].innerText
-        const msg = this.parentNode.parentNode.childNodes[3].innerText
-        const thumbUp = parseFloat(this.parentNode.parentNode.childNodes[5].innerText)
-        fetch('thumbUp', {
-          method: 'put',
-          headers: {'Content-Type': 'application/json'},
-          body: JSON.stringify({
-            'name': name,
-            'msg': msg,
-            'thumbUp':thumbUp
-          })
-        })
-        .then(response => {
-          if (response.ok) return response.json()
-        })
-        .then(data => {
-          console.log(data)
-          window.location.reload(true)
-        })
-      });
-});
+document.addEventListener("click", event => {
+  if (event.target.localName !== "button") return;
+  let buttonType = 0;
 
-Array.from(thumbDown).forEach(function(element) {
-  element.addEventListener('click', function(){
-    const name = this.parentNode.parentNode.childNodes[1].innerText
-    const msg = this.parentNode.parentNode.childNodes[3].innerText
-    const thumbUp = parseFloat(this.parentNode.parentNode.childNodes[5].innerText)
-    fetch('thumbDown', {
+  const id = event.target.id;
+  
+  switch (id) {
+    case "gold-button-1":
+      buttonType = 1;
+      break;
+    case "gold-button-2":
+      buttonType = 2;
+      break;
+    case "gold-button-3":
+      buttonType = 3;
+      break;
+    case "gold-button-4":
+      buttonType = 4;
+      break;
+  }
+
+  if (buttonType !== 0) {
+    fetch("/getGold", {
       method: 'put',
       headers: {'Content-Type': 'application/json'},
       body: JSON.stringify({
-        'name': name,
-        'msg': msg,
-        'thumbUp':thumbUp
+        _id,
+        buttonType
       })
     })
-    .then(response => {
-      if (response.ok) return response.json()
-    })
+    .then(res => res.json())
     .then(data => {
-      console.log(data)
-      window.location.reload(true)
-    })
-  });
-});
-
-Array.from(trash).forEach(function(element) {
-      element.addEventListener('click', function(){
-        const name = this.parentNode.parentNode.childNodes[1].innerText
-        const msg = this.parentNode.parentNode.childNodes[3].innerText
-        fetch('messages', {
-          method: 'delete',
-          headers: {
-            'Content-Type': 'application/json'
-          },
-          body: JSON.stringify({
-            'name': name,
-            'msg': msg
-          })
-        }).then(function (response) {
-          window.location.reload()
-        })
-      });
+      goldDisplay.innerText = +goldDisplay.innerText + +data.gold;
+    });  
+  }
 });

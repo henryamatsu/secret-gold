@@ -19,6 +19,9 @@ var configDB = require('./config/database.js');
 
 var db
 
+// for converting _id strings to ObjectId type
+app.locals.ObjectId = mongoose.Types.ObjectId;
+
 // configuration ===============================================================
 mongoose.connect(configDB.url, (err, database) => {
   if (err) return console.log(err)
@@ -34,7 +37,6 @@ app.use(cookieParser()); // read cookies (needed for auth)
 app.use(bodyParser.json()); // get information from html forms
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(express.static('public'))
-
 
 app.set('view engine', 'ejs'); // set up ejs for templating
 

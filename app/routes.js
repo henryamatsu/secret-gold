@@ -9,11 +9,11 @@ module.exports = function(app, passport, db) {
 
     // PROFILE SECTION =========================
     app.get('/profile', isLoggedIn, function(req, res) {
-        db.collection('messages').find().toArray((err, result) => {
+        db.collection('users').find({_id: req.user._id}).toArray((err, result) => {
+
           if (err) return console.log(err)
           res.render('profile.ejs', {
-            user : req.user,
-            messages: result
+            user : result[0]
           })
         })
     });
@@ -26,28 +26,153 @@ module.exports = function(app, passport, db) {
         res.redirect('/');
     });
 
-// message board routes ===============================================================
+// gold acquisition routes ===============================================================
 
     app.post('/messages', (req, res) => {
-      db.collection('messages').save({name: req.body.name, msg: req.body.msg, thumbUp: 0, thumbDown:0}, (err, result) => {
+      db.collection('users').save({name: req.body.name, msg: req.body.msg, thumbUp: 0, thumbDown:0}, (err, result) => {
         if (err) return console.log(err)
         console.log('saved to database')
         res.redirect('/profile')
       })
     })
 
-    app.put('/thumbUp', (req, res) => {
-      db.collection('messages')
-      .findOneAndUpdate({name: req.body.name, msg: req.body.msg}, {
-        $set: {
-          thumbUp:req.body.thumbUp + 1
+    const arrangements = {
+      1: {
+        1: {
+          1: 0,
+          2: 0,
+          3: 1,
+          4: 0    
+        },
+        2: {
+          1: 2,
+          2: 0,
+          3: -1,
+          4: 0
+        },
+        3: {
+          1: 0,
+          2: 0,
+          3: 0,
+          4: 1
+        },
+        4: {
+          1: 1,
+          2: 0,
+          3: 0,
+          4: 0              
+        }  
+      },
+      2: {
+        1: {
+          1: 0,
+          2: 0,
+          3: 1,
+          4: 0    
+        },
+        2: {
+          1: 2,
+          2: 0,
+          3: 0,
+          4: 0
+        },
+        3: {
+          1: 0,
+          2: 0,
+          3: 3,
+          4: 0
+        },
+        4: {
+          1: 1,
+          2: 0,
+          3: 0,
+          4: 0              
+        }  
+      },
+      3: {
+        1: {
+          1: 0,
+          2: 5,
+          3: 0,
+          4: 0    
+        },
+        2: {
+          1: 0,
+          2: 1,
+          3: 0,
+          4: 0
+        },
+        3: {
+          1: 0,
+          2: 6,
+          3: 0,
+          4: 0
+        },
+        4: {
+          1: 1,
+          2: 0,
+          3: 0,
+          4: 0              
+        }  
+      },
+      4: {
+        1: {
+          1: 0,
+          2: 3,
+          3: 0,
+          4: 0    
+        },
+        2: {
+          1: 0,
+          2: 100,
+          3: 0,
+          4: 0
+        },
+        3: {
+          1: 0,
+          2: 1,
+          3: 0,
+          4: 0
+        },
+        4: {
+          1: 0,
+          2: 10,
+          3: 0,
+          4: 0              
+        }  
+      }
+    };
+
+    const buttonCombination = [];
+
+    app.put('/getGold', (req, res) => {
+      let goldAmount = 0;
+
+      buttonCombination.push(req.body.buttonType);
+
+      console.log(buttonCombination);
+
+      if (buttonCombination.length == 3) {
+        goldAmount = arrangements[buttonCombination[0]][buttonCombination[1]][buttonCombination[2]];
+        buttonCombination.length = 0;
+      }
+
+
+    // we need to log the past sequence of buttonTypes that have been clicked, and certain combinations should
+    // produce certain amounts of gold
+
+      db.collection('users')
+      .findOneAndUpdate({_id: req.app.locals.ObjectId(req.body._id)}, {
+        $inc: {
+          "local.gold": goldAmount
         }
       }, {
         sort: {_id: -1},
         upsert: true
       }, (err, result) => {
         if (err) return res.send(err)
-        res.send(result)
+        console.log('saved to database')
+        res.json({gold: goldAmount});
       })
     })
 
