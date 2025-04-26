@@ -33,6 +33,8 @@ document.addEventListener("click", event => {
     })
     .then(res => res.json())
     .then(data => {
+      console.log(data);
+
       goldDisplay.innerText = +goldDisplay.innerText + +data.gold;
     });  
   }

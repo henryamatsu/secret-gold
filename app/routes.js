@@ -143,37 +143,40 @@ module.exports = function(app, passport, db) {
       }
     };
 
-    const buttonCombination = [];
+    app.put('/getGold', async (req, res) => {
+      try {
+        let goldAmount = 0;
+        const userId = req.app.locals.ObjectId(req.body._id);
+        const user = await db.collection('users').findOne({_id: userId});
+        const {combinations} = user.local;
 
-    app.put('/getGold', (req, res) => {
-      let goldAmount = 0;
-
-      buttonCombination.push(req.body.buttonType);
-
-      console.log(buttonCombination);
-
-      if (buttonCombination.length == 3) {
-        goldAmount = arrangements[buttonCombination[0]][buttonCombination[1]][buttonCombination[2]];
-        buttonCombination.length = 0;
-      }
-
-
-    // we need to log the past sequence of buttonTypes that have been clicked, and certain combinations should
-    // produce certain amounts of gold
-
-      db.collection('users')
-      .findOneAndUpdate({_id: req.app.locals.ObjectId(req.body._id)}, {
-        $inc: {
-          "local.gold": goldAmount
+        if (combinations.length < 3) {
+          combinations.push(req.body.buttonType);
         }
-      }, {
-        sort: {_id: -1},
-        upsert: true
-      }, (err, result) => {
-        if (err) return res.send(err)
-        console.log('saved to database')
-        res.json({gold: goldAmount});
-      })
+  
+        if (combinations.length === 3) {
+          goldAmount = arrangements[combinations[0]][combinations[1]][combinations[2]];
+          combinations.length = 0;
+        }
+          
+        let goldUpdate = await db.collection('users').findOneAndUpdate({_id:userId}, {
+          $inc: {
+            "local.gold": goldAmount
+          },
+          $set: {
+            "local.combinations": combinations,
+          }
+        }, {
+          sort: {_id: -1},
+          upsert: true
+        })
+
+        res.json({gold: goldAmount})
+      }
+      catch (err) {
+        console.log(err);
+        res.send(err);
+      }
     })
 
     app.put('/thumbDown', (req, res) => {
