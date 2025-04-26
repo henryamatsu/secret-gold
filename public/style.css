@@ -1,7 +1,82 @@
-body{
-  padding-top:80px;
-  word-wrap:break-word;
+html, body {
+  height: 100%;
 }
-img{
-  height: 200px;
+
+body {
+  position: relative;
+}
+
+header {
+  display: flex;
+  padding: 0 20px;
+  border-bottom: 5px solid;
+  height: 50px;
+  align-items: center;
+  gap: 20px;
+}
+
+main {
+  position: absolute;
+  inset: 0;
+  margin: auto;
+  width: fit-content;
+  height: fit-content;
+}
+
+h1 {
+  font-size: 3.2rem;
+}
+
+h2 {
+  font-size: 3.2rem;
+  margin-bottom: 20px;
+}
+
+form {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.error-message {
+  color: var(--color-2);
+}
+
+/* profile page */
+
+.gold-buttons {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+
+.button-panel {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 20px;
+  width: fit-content;
+  height: fit-content;
+}
+
+.button-panel > button {
+  --shadow-border: 3px solid;
+  --shadow-offset: 5px;
+}
+
+.button-panel img {
+  width: 100px;
+  pointer-events: none;
+}
+
+#gold-button-1,
+#gold-button-2 {
+  grid-row: 1;
+}
+#gold-button-3,
+#gold-button-4 {
+  grid-row: 2;
+}
+#reset-button {
+  grid-column: 1 / -1;
+  grid-row: 3;
 }

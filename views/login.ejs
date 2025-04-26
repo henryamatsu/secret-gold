@@ -1,42 +1,33 @@
 <!doctype html>
 <html>
 <head>
-    <title>21 Savage Fan Site</title>
-    <link rel="stylesheet" href="//netdna.bootstrapcdn.com/bootstrap/3.0.2/css/bootstrap.min.css">
-    <link rel="stylesheet" href="//netdna.bootstrapcdn.com/font-awesome/5.0.0/css/font-awesome.min.css">
+    <title>Gold</title>
+    <link rel="stylesheet" href="reset.css">
+    <link rel="stylesheet" href="theme-default.css">
     <link rel="stylesheet" href="style.css">
 </head>
 <body>
-<div class="container">
-<div class="col-sm-6 col-sm-offset-3">
+    <main>
+        <h1>Login</h1>
 
-    <h1><span class="fa fa-sign-in"></span> Login</h1>
-
-    <% if (message.length > 0) { %>
-        <div class="alert alert-danger"><%= message %></div>
-    <% } %>
-
-    <!-- LOGIN FORM -->
-    <form action="/login" method="post">
-        <div class="form-group">
+        <% if (message.length > 0) { %>
+            <div class="error message"><%= message %></div>
+        <% } %>
+    
+        <!-- LOGIN FORM -->
+        <form action="/login" method="post">
             <label>Email</label>
-            <input type="text" class="form-control" name="email">
-        </div>
-        <div class="form-group">
+            <input type="text" name="email">
             <label>Password</label>
-            <input type="password" class="form-control" name="password">
-        </div>
-
-        <button type="submit" class="btn btn-warning btn-lg">Login</button>
-    </form>
-
-    <hr>
-
-    <p>Need an account? <a href="/signup">Signup</a></p>
-    <p>Or go <a href="/">home</a>.</p>
-
-
-</div>
-</div>
+            <input type="password" name="password">
+            <button type="submit">Login</button>
+        </form>
+    
+        <hr>
+    
+        <p>Need an account? <a href="/signup">Signup</a></p>
+        <p>Or go <a href="/">home</a>.</p>
+    
+    </main>    
 </body>
 </html>

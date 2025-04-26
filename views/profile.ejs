@@ -1,52 +1,32 @@
 <!doctype html>
 <html>
 <head>
-    <title>21 Savage Fan Site</title>
-    <link rel="stylesheet" href="//netdna.bootstrapcdn.com/bootstrap/3.0.2/css/bootstrap.min.css">
-    <link rel="stylesheet" href="//netdna.bootstrapcdn.com/font-awesome/4.2.0/css/font-awesome.min.css">
+    <title>Gold</title>
+    <link rel="stylesheet" href="reset.css">
+    <link rel="stylesheet" href="theme-default.css">
     <link rel="stylesheet" href="style.css">
 </head>
 <body data-_id=<%= user._id %>>
-<div class="container">
 
-    <div class="page-header text-center">
+    <header class="page-header text-center">
         <h1><span class="fa fa-anchor"></span> Profile Page</h1>
         <a href="/logout" class="btn btn-default btn-sm">Logout</a>
-    </div>
+    </header>
+    <% if (user.local.email) { %>
+    <main>
+        <section class="gold-buttons">
+            <h2>Gold: <span id="gold-display"><%= user.local.gold !== undefined ? user.local.gold : 0 %></span></h2>
+            <div class="button-panel">
+                <button id="gold-button-1" class="false-shadow line-shadow clickable"><img src="/img/sun.svg"/></button>
+                <button id="gold-button-2" class="false-shadow line-shadow clickable"><img src="/img/moon.svg"/></button>
+                <button id="gold-button-3" class="false-shadow line-shadow clickable"><img src="/img/star.svg"/></button>
+                <button id="gold-button-4" class="false-shadow line-shadow clickable"><img src="/img/nova.svg"/></button>
+                <button id="reset-button"  class="false-shadow line-shadow clickable"><img src="/img/blink.svg"/></button>
+            </div>        
+        </section>
+    </main>
+    <% } %>
 
-    <div class="row">
-
-        <!-- LOCAL INFORMATION -->
-        <div class="col-sm-6">
-            <div class="well">
-                <h3><span class="fa fa-user"></span> Local</h3>
-
-                <% if (user.local.email) { %>
-                    <p>
-                        <strong>id</strong>: <%= user._id %><br>
-                        <strong>email</strong>: <%= user.local.email %><br>
-                        <strong>password</strong>: <%= user.local.password %><br>
-                        <strong>gold</strong>: <span id="gold-display"><%= user.local.gold !== undefined ? user.local.gold : 0 %></span>
-                    </p>
-
-                    <a href="/unlink/local" class="btn btn-default">Unlink</a>
-                <% } else { %>
-                    <a href="/connect/local" class="btn btn-default">Connect Local</a>
-                <% } %>
-
-            </div>
-        </div>
-        <div class="col-sm-6">
-        <% if (user.local.email) { %>
-          <button id="gold-button-1">Get Gold 1</button>
-          <button id="gold-button-2">Get Gold 2</button>
-          <button id="gold-button-3">Get Gold 3</button>
-          <button id="gold-button-4">Get Gold 4</button>
-          <button id="reset-button">Reset</button>
-        </div>
-        <% } %>
-
-</div>
 
 <script src="main.js"></script>
 

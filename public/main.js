@@ -25,6 +25,8 @@ document.addEventListener("click", event => {
       break;
   }
 
+  console.log(buttonType);
+
   if (buttonType !== 0) {
     fetch("/getGold", {
       method: 'put',
