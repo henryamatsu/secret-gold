@@ -51,7 +51,7 @@ module.exports = function(app, passport, db) {
           4: 0
         },
         3: {
-          1: 0,
+          1: -1,
           2: 0,
           3: 0,
           4: 1
@@ -68,7 +68,7 @@ module.exports = function(app, passport, db) {
           1: 0,
           2: 0,
           3: 1,
-          4: 0    
+          4: -2    
         },
         2: {
           1: 2,
@@ -80,7 +80,7 @@ module.exports = function(app, passport, db) {
           1: 0,
           2: 0,
           3: 3,
-          4: 0
+          4: -1
         },
         4: {
           1: 1,
@@ -91,7 +91,7 @@ module.exports = function(app, passport, db) {
       },
       3: {
         1: {
-          1: 0,
+          1: -3,
           2: 5,
           3: 0,
           4: 0    
@@ -106,7 +106,7 @@ module.exports = function(app, passport, db) {
           1: 0,
           2: 6,
           3: 0,
-          4: 0
+          4: -1
         },
         4: {
           1: 1,
@@ -123,8 +123,8 @@ module.exports = function(app, passport, db) {
           4: 0    
         },
         2: {
-          1: 0,
-          2: 100,
+          1: 100,
+          2: -5,
           3: 0,
           4: 0
         },
@@ -148,18 +148,23 @@ module.exports = function(app, passport, db) {
         let goldAmount = 0;
         const userId = req.app.locals.ObjectId(req.body._id);
         const user = await db.collection('users').findOne({_id: userId});
-        const {combinations} = user.local;
+        const combinations = user.local.combinations || [];
 
-        if (combinations.length < 3) {
-          combinations.push(req.body.buttonType);
-        }
-  
-        if (combinations.length === 3) {
-          goldAmount = arrangements[combinations[0]][combinations[1]][combinations[2]];
+        if (req.body.buttonType == 5) {
           combinations.length = 0;
         }
+        else {
+          if (combinations.length < 3) {
+            combinations.push(req.body.buttonType);
+          }
+    
+          if (combinations.length === 3) {
+            goldAmount = arrangements[combinations[0]][combinations[1]][combinations[2]];
+            combinations.length = 0;
+          }  
+        }
           
-        let goldUpdate = await db.collection('users').findOneAndUpdate({_id:userId}, {
+        await db.collection('users').findOneAndUpdate({_id:userId}, {
           $inc: {
             "local.gold": goldAmount
           },

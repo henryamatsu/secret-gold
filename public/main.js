@@ -20,6 +20,9 @@ document.addEventListener("click", event => {
     case "gold-button-4":
       buttonType = 4;
       break;
+    case "reset-button":
+      buttonType = 5;
+      break;
   }
 
   if (buttonType !== 0) {

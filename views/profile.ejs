@@ -26,7 +26,7 @@
                         <strong>id</strong>: <%= user._id %><br>
                         <strong>email</strong>: <%= user.local.email %><br>
                         <strong>password</strong>: <%= user.local.password %><br>
-                        <strong>gold</strong>: <span id="gold-display"><%= user.local.gold %></span>
+                        <strong>gold</strong>: <span id="gold-display"><%= user.local.gold !== undefined ? user.local.gold : 0 %></span>
                     </p>
 
                     <a href="/unlink/local" class="btn btn-default">Unlink</a>
@@ -42,6 +42,7 @@
           <button id="gold-button-2">Get Gold 2</button>
           <button id="gold-button-3">Get Gold 3</button>
           <button id="gold-button-4">Get Gold 4</button>
+          <button id="reset-button">Reset</button>
         </div>
         <% } %>
 
