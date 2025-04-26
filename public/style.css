@@ -18,6 +18,9 @@ header {
 main {
   position: absolute;
   inset: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
   margin: auto;
   width: fit-content;
   height: fit-content;
