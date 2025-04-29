@@ -4,7 +4,7 @@ A user-authentication enabled app where you can press a combination of buttons t
 
 ![secret-gold](https://github.com/user-attachments/assets/23c96cd2-383a-4e4e-b34f-8b57a6e7239f)
 
-*Screenshot of the Login page and the button panel page*
+*Screenshot of the button panel page*
 
 ## How It’s Made
 
