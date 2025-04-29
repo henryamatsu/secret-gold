@@ -31,5 +31,4 @@ A user-authentication enabled app where you can press a combination of buttons t
 
 ## Inspiration & Credit
 
-Modified from Scotch.io's auth tutorial,
-README.md layout modified from **CodingWCal**'s template.
+README.md layout modified from **CodingWCal**'s template
